@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaspi.kz Home Page Rework - Aziz Baratov</title>
+    <meta name="description" content="Redesigning the main page of the largest fintech ecosystem in Kazakhstan.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+</head>
+
+<body class="project-page">
+    <nav class="project-nav container">
+        <a href="index.html" class="back-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Back to Home
+        </a>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+        </button>
+    </nav>
+
+    <header class="project-header container">
+        <div class="header-top">
+            <div class="status-badge static">
+                <span class="dot"></span>
+                <span class="label">SHIPPED</span>
+            </div>
+        </div>
+        <div class="header-main-layout">
+            <h1 class="project-main-title">Kaspi.kz home page rework</h1>
+            <p class="project-side-description">Redesigning the main page of the largest fintech ecosystem in
+                Kazakhstan</p>
+        </div>
+    </header>
+
+    <section class="project-hero-media full-width">
+        <img src="kaspi-preview.png" alt="Kaspi.kz home page rework preview">
+    </section>
+
+    <main class="project-content container">
+        <section class="project-info-split">
+            <h2 class="content-label">What kind of product?</h2>
+            <div class="content-body">
+                <p>Kaspi.kz is the #1 super app in Kazakhstan with over 14 million monthly active users.</p>
+                <p>In 2020, it became one of the fastest-growing IT-financial companies in Europe and Eurasia,
+                    as well as a key player in Kazakhstan’s financial market.Through constant innovation,
+                    Kaspi.kz drives the country’s digital transformation and strengthens its investment
+                    appeal. Its success story is even studied at Harvard.</p>
+            </div>
+        </section>
+
+        <section class="project-info-split">
+            <h2 class="content-label">Problem</h2>
+            <div class="content-body">
+                <h3 class="takeaway-summary">As the business grew, investments in product development and marketing had
+                    to increase. To support this growth, the company set a clear goal — to boost product revenue.</h3>
+                <p>Through user research and interviews, I identified a common challenge across products. To complete
+                    a purchase (in the *Kaspi Store* or *Kaspi Travel*), users had to navigate through multiple screens.
+                    This created a UX barrier that often led to drop-offs or users switching to alternative services.
+                    Although product and tour pages are accessible directly from the homepage, many users overlooked
+                    this feature because it was not visible within their immediate screen view. By optimizing homepage
+                    space and making purchase options more prominent, users can engage more easily, reducing friction
+                    and increasing visibility of key actions. Such improvements are expected to boost user engagement,
+                    encourage repeat visits, and drive growth in GMV directly from the homepage.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p>Designed and coded by Aziz Baratov ♥️</p>
+        <p>&copy;2017-2026</p>
+    </footer>
+
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-outline" id="cursor-outline"></div>
+    <script src="script.js"></script>
+</body>
+
+</html>
