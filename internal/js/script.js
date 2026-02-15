@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
     animateCursor();
 
     // Hover interactions
-    const interactables = document.querySelectorAll('a, button, .work-item');
+    const interactables = document.querySelectorAll('a, button, .work-item, .carousel-slide, .lightbox-nav, .lightbox-close');
 
     interactables.forEach((el) => {
         el.addEventListener('mouseenter', () => {
@@ -151,4 +151,139 @@ document.addEventListener('DOMContentLoaded', () => {
             img.style.transform = `scale(1.3) translateY(${yPos}px)`;
         });
     });
+
+    // Carousel Logic
+    const carouselContainers = document.querySelectorAll('.carousel-container');
+
+    carouselContainers.forEach(container => {
+        const carouselTrack = container.querySelector('.carousel-track');
+        if (!carouselTrack) return;
+
+        const slides = Array.from(carouselTrack.children);
+        const nextButton = container.querySelector('.carousel-button.next');
+        const prevButton = container.querySelector('.carousel-button.prev');
+        const indicators = container.querySelectorAll('.carousel-indicator');
+
+        let currentSlideIndex = 0;
+
+        const updateCarousel = (index) => {
+            const slideWidth = slides[0].getBoundingClientRect().width;
+            carouselTrack.style.transform = 'translateX(-' + (slideWidth * index) + 'px)';
+
+            indicators.forEach((ind, i) => {
+                if (i === index) {
+                    ind.classList.add('active');
+                } else {
+                    ind.classList.remove('active');
+                }
+            });
+        };
+
+        if (nextButton) {
+            nextButton.addEventListener('click', () => {
+                currentSlideIndex = (currentSlideIndex + 1) % slides.length;
+                updateCarousel(currentSlideIndex);
+            });
+        }
+
+        if (prevButton) {
+            prevButton.addEventListener('click', () => {
+                currentSlideIndex = (currentSlideIndex - 1 + slides.length) % slides.length;
+                updateCarousel(currentSlideIndex);
+            });
+        }
+
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => {
+                currentSlideIndex = index;
+                updateCarousel(currentSlideIndex);
+            });
+        });
+
+        window.addEventListener('resize', () => {
+            updateCarousel(currentSlideIndex);
+        });
+    });
+
+    // Lightbox Logic
+    const lightbox = document.getElementById('lightbox-modal');
+    const lightboxContent = document.getElementById('lightbox-content');
+    const lightboxCaption = document.getElementById('lightbox-caption');
+    const lightboxClose = document.querySelector('.lightbox-close');
+    const lightboxPrev = document.querySelector('.lightbox-nav.prev');
+    const lightboxNext = document.querySelector('.lightbox-nav.next');
+
+    let currentLightboxSlides = [];
+    let currentLightboxIndex = 0;
+
+    if (lightbox && lightboxContent) {
+        const updateLightboxContent = (index) => {
+            const slide = currentLightboxSlides[index];
+            if (!slide) return;
+
+            lightboxContent.innerHTML = '';
+            const isImage = slide.querySelector('img');
+            if (isImage) {
+                const clone = isImage.cloneNode(true);
+                lightboxContent.appendChild(clone);
+            } else {
+                const clone = slide.cloneNode(true);
+                clone.style.minWidth = 'auto';
+                clone.style.width = '70vw';
+                clone.style.height = '50vh';
+                clone.style.transform = 'none';
+                lightboxContent.appendChild(clone);
+            }
+
+            const caption = slide.getAttribute('data-caption');
+            lightboxCaption.textContent = caption || '';
+            currentLightboxIndex = index;
+        };
+
+        const carouselContainersList = document.querySelectorAll('.carousel-container');
+        carouselContainersList.forEach(container => {
+            const slides = Array.from(container.querySelectorAll('.carousel-slide'));
+            slides.forEach((slide, index) => {
+                slide.addEventListener('click', () => {
+                    currentLightboxSlides = slides;
+                    updateLightboxContent(index);
+                    lightbox.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+        });
+
+        const navigateLightbox = (direction) => {
+            if (currentLightboxSlides.length === 0) return;
+            let newIndex = (currentLightboxIndex + direction + currentLightboxSlides.length) % currentLightboxSlides.length;
+            updateLightboxContent(newIndex);
+        };
+
+        if (lightboxPrev) lightboxPrev.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navigateLightbox(-1);
+        });
+        if (lightboxNext) lightboxNext.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navigateLightbox(1);
+        });
+
+        const closeLightbox = () => {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        };
+
+        if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox || e.target.classList.contains('lightbox-content-wrapper')) closeLightbox();
+        });
+
+        window.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('active')) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') navigateLightbox(-1);
+            if (e.key === 'ArrowRight') navigateLightbox(1);
+        });
+    }
 });
