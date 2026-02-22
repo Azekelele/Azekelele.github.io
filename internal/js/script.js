@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
     animateCursor();
 
     // Hover interactions
-    const interactables = document.querySelectorAll('a, button, .work-item, .carousel-slide, .lightbox-nav, .lightbox-close');
+    const interactables = document.querySelectorAll('a, button, .work-item, .carousel-slide, .lightbox-nav, .lightbox-close, .handle');
 
     interactables.forEach((el) => {
         el.addEventListener('mouseenter', () => {
@@ -286,4 +286,37 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.key === 'ArrowRight') navigateLightbox(1);
         });
     }
+
+    // Before/After Slider Logic
+    const baWrappers = document.querySelectorAll('.before-after-wrapper');
+    baWrappers.forEach(wrapper => {
+        const handle = wrapper.querySelector('.handle');
+        const beforeImg = wrapper.querySelector('.before-image');
+        let isDragging = false;
+
+        const onMove = (e) => {
+            if (!isDragging) return;
+
+            const rect = wrapper.getBoundingClientRect();
+            let x = (e.pageX || e.touches[0].pageX) - rect.left - window.scrollX;
+
+            x = Math.max(0, Math.min(x, rect.width));
+
+            const percentage = (x / rect.width) * 100;
+            handle.style.left = `${percentage}%`;
+            beforeImg.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
+        };
+
+        const startDragging = () => { isDragging = true; };
+        const stopDragging = () => { isDragging = false; };
+
+        handle.addEventListener('mousedown', startDragging);
+        handle.addEventListener('touchstart', startDragging, { passive: true });
+
+        window.addEventListener('mousemove', onMove);
+        window.addEventListener('touchmove', onMove, { passive: false });
+
+        window.addEventListener('mouseup', stopDragging);
+        window.addEventListener('touchend', stopDragging);
+    });
 });
